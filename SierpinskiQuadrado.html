@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+
+ <title>Fractal Sierpinski num retângulo</title>
+ 
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+</head>
+<style>
+.slider{
+width:500px;
+}
+</style>
+<body>
+
+ <h1><a href="https://ideiasesquecidas.com"> <img src=	"https://ideiasesquecidas.files.wordpress.com/2020/03/forgottenlogo.png" width="90" height = "50"></a>Fractal Sierpinski num retângulo</h1>
+
+<div class="slidecontainer" onchange= "Desenhar()">
+N. Camadas:  <input type="range" min="2" max="7" value="5" class="slider" id="rangeCamadas">
+</div>
+
+
+
+</Body>   
+</Html>  
+
+<script type = "text/javascript">
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", 1520)
+        .attr("height", 800);
+   
+   var Ncamadas;
+   
+	Desenhar();
+
+	function Desenhar()
+	{
+	svg.selectAll("*").remove();
+	
+	Ncamadas = d3.select("#rangeCamadas").property("value");
+	
+	//---------------------------------------------------------------
+	
+	SierpQuad(200,200,480,1);
+	 
+	}
+
+
+function SierpQuad(x,y,R, count)
+	{
+
+	if (count<Ncamadas)
+	{
+	 Rect(x+R/3,y+R/3,R/3);
+	 
+	 SierpQuad(x,         y,R/3, count+1);
+	 SierpQuad(x+R/3, y,R/3, count+1);
+	 SierpQuad(x+2*R/3, y,R/3, count+1);
+	 
+	 SierpQuad(x,         y+R/3,R/3, count+1);	 
+	 SierpQuad(x+2*R/3, y+R/3,R/3, count+1);
+
+	 SierpQuad(x,         y+2*R/3,R/3, count+1);
+	 SierpQuad(x+R/3, y+2*R/3,R/3, count+1);
+	 SierpQuad(x+2*R/3, y+2*R/3,R/3, count+1);
+	 
+	}
+	}
+
+
+
+function Rect(x,y,R)
+{
+svg.append("rect")
+		  .attr("x", x)
+		  .attr("y", y)
+		  .attr("width", R)
+		  .attr("height", R)
+		  .attr("stroke", "black")
+		  .attr("fill", "transparent")
+}
+
+	
+  </script>
+</body>
+</html>
