@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+
+ <title>Triângulo de Sierpinski</title>
+ 
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+</head>
+<style>
+.slider{
+width:500px;
+}
+</style>
+<body>
+
+ <h1><a href="https://ideiasesquecidas.com"> <img src=	"https://ideiasesquecidas.files.wordpress.com/2020/03/forgottenlogo.png" width="90" height = "50"></a>Triângulo de Sierpinski</h1>
+
+<div class="slidecontainer" onchange= "Desenhar()">
+N. Camadas:  <input type="range" min="2" max="10" value="5" class="slider" id="rangeCamadas">
+</div>
+
+
+
+</Body>   
+</Html>  
+
+<script type = "text/javascript">
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", 1520)
+        .attr("height", 800);
+   
+   var Ncamadas;
+	Desenhar();
+
+	function Desenhar()
+	{
+	svg.selectAll("*").remove();
+	
+	Ncamadas = d3.select("#rangeCamadas").property("value");
+	
+	//---------------------------------------------------------------
+	
+	Sierp(500,500,480,1);
+	 
+	}
+
+
+function Sierp(x,y,R, count)
+	{
+
+	if (count<Ncamadas)
+	{
+	 RegularPol(x,y,R, 3);
+	 
+	 Sierp(x,y-R/2,R/2, count+1);
+	 Sierp(x-R*0.433,y+R/4,R/2, count+1);
+	 Sierp(x+R*0.433,y+R/4,R/2, count+1);
+	}
+	}
+
+
+function RegularPol(x,y,R, n)
+	{
+		//Posicao x, y
+		//Raio R
+		//Número de pontos n
+		var pontos;
+		var i;
+		var angulo;
+		angulo=0;
+		pontos="";
+		for (i=0;i<n-1;i++)
+		{		
+			angulo = i*2*3.14159/n +3.14159;
+			pontos += (x + Math.sin(angulo)*R)+ ", " + (y+Math.cos(angulo)*R) + ", ";			 
+		}
+		//Ultimo ponto
+		i = n-1;
+		angulo = i*2*3.14159/n +3.14159;		
+		pontos += (x + Math.sin(angulo)*R)+ ", " + (y+Math.cos(angulo)*R);
+
+		svg.append("polygon")
+		  .attr("points", pontos)		  
+		  .attr("stroke", "black")
+		  .attr("fill", "transparent")		  
+	}
+	
+  </script>
+</body>
+</html>
